@@ -30,6 +30,9 @@ public class ItemDeliveryDtoConverter {
 	public static ItemDelivery converterItem(ItemDeliveryDto itemDeliveryDto, ProdutoService produtoService) {
 		Optional<Produto> produto = produtoService.pesquisarPorId(itemDeliveryDto.getIdProduto());
 		ItemDelivery item = new ItemDelivery();
+		if(itemDeliveryDto.getId() != null) {
+			item.setId(itemDeliveryDto.getId());
+		}
 		item.setProduto(produto.get());
 		item.setQuantidade(itemDeliveryDto.getQuantidade());
 		item.calcularValorTotal();

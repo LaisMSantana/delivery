@@ -48,6 +48,9 @@ public class DeliveryService {
 
 		Delivery delivery = new Delivery(cliente.get(), itens, cliente.get().getTipoDePagamento());
 		delivery.calcularValorTotal();
+		if(deliveryDto.getId() != null) {
+			delivery.setId(deliveryDto.getId());
+		}
 
 		return deliveryRepository.save(delivery);
 	}
