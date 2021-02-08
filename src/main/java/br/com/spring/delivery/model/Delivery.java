@@ -22,9 +22,9 @@ public class Delivery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "O campo pessoa é obrigatório")
+	@NotNull(message = "O campo cliente é obrigatório")
 	@OneToOne
-	private Pessoa pessoa;
+	private Cliente cliente;
 	
 	@NotNull(message = "Lista de itens é obrigatório")
 	@Valid
@@ -44,9 +44,9 @@ public class Delivery {
 	public Delivery() {
 	}
 
-	public Delivery(@NotNull Pessoa pessoa, @NotNull List<ItemDelivery> itemDeliveries,
+	public Delivery(@NotNull Cliente cliente, @NotNull List<ItemDelivery> itemDeliveries,
 			TipoDePagamento tipoDePagamento) {
-		this.pessoa = pessoa;
+		this.cliente = cliente;
 		this.itemDeliveries = itemDeliveries;
 		this.tipoDePagamento = tipoDePagamento;
 	}
@@ -59,12 +59,12 @@ public class Delivery {
 		this.id = id;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public List<ItemDelivery> getItemDeliveries() {

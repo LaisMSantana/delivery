@@ -9,39 +9,39 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spring.delivery.exception.CampoInvalidoException;
 import br.com.spring.delivery.exception.EstaSendoUtilizadoException;
-import br.com.spring.delivery.model.Pessoa;
-import br.com.spring.delivery.model.dto.PessoaDto;
+import br.com.spring.delivery.model.Cliente;
+import br.com.spring.delivery.model.dto.ClienteDto;
 import br.com.spring.delivery.respository.DeliveryRepository;
-import br.com.spring.delivery.respository.PessoaRepository;
+import br.com.spring.delivery.respository.ClienteRepository;
 
 @Service
 @Transactional
-public class PessoaService {
+public class ClienteService {
 
 	@Autowired
-	PessoaRepository pessoaRepository;
+	ClienteRepository clienteRepository;
 	@Autowired
 	DeliveryRepository deliveryRepository;
 
-	public List<Pessoa> listarTodos() {
-		return pessoaRepository.findAll();
+	public List<Cliente> listarTodos() {
+		return clienteRepository.findAll();
 	}
 
-	public List<Pessoa> pesquisarPorNome(String nome) {
-		return pessoaRepository.findByNome(nome);
+	public List<Cliente> pesquisarPorNome(String nome) {
+		return clienteRepository.findByNome(nome);
 	}
 
-	public Optional<Pessoa> pesquisarPorId(Long id) {
-		return pessoaRepository.findById(id);
+	public Optional<Cliente> pesquisarPorId(Long id) {
+		return clienteRepository.findById(id);
 	}
 
-	public Pessoa salvar(Pessoa pessoa) throws CampoInvalidoException {
-		return pessoaRepository.save(pessoa);
+	public Cliente salvar(Cliente cliente) throws CampoInvalidoException {
+		return clienteRepository.save(cliente);
 	}
 
-	public void verificarCampoJaCadastrados(Pessoa pessoa) throws CampoInvalidoException {
-		Pessoa mesmoCpf = pessoaRepository.findByCpf(pessoa.getCpf());
-		Pessoa mesmoEmail = pessoaRepository.findByEmail(pessoa.getEmail());
+	public void verificarCampoJaCadastrados(Cliente cliente) throws CampoInvalidoException {
+		Cliente mesmoCpf = clienteRepository.findByCpf(cliente.getCpf());
+		Cliente mesmoEmail = clienteRepository.findByEmail(cliente.getEmail());
 		if (mesmoCpf != null && mesmoEmail != null) {
 			throw new CampoInvalidoException("Cpf e email já cadastrado.");
 		} else if (mesmoCpf != null) {
@@ -51,16 +51,16 @@ public class PessoaService {
 		}
 	}
 	
-	public void verificarEmailJaCadastrado(PessoaDto pessoa)  throws CampoInvalidoException {
-		Pessoa mesmoEmail = pessoaRepository.findByEmail(pessoa.getEmail());
+	public void verificarEmailJaCadastrado(ClienteDto cliente)  throws CampoInvalidoException {
+		Cliente mesmoEmail = clienteRepository.findByEmail(cliente.getEmail());
 		if (mesmoEmail != null) {
 			throw new CampoInvalidoException("Email já cadastrado");
 		}
 	}
 
 	public void deletar(Long id) throws EstaSendoUtilizadoException {
-		if (deliveryRepository.findByPessoaId(id).size() == 0) {
-			pessoaRepository.deleteById(id);
+		if (deliveryRepository.findByClienteId(id).size() == 0) {
+			clienteRepository.deleteById(id);
 		} else {
 			throw new EstaSendoUtilizadoException("Não podemos completar a ação, cliente em delivery.");
 		}

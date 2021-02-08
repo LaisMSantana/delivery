@@ -4,10 +4,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import br.com.spring.delivery.model.Endereco;
-import br.com.spring.delivery.model.Pessoa;
+import br.com.spring.delivery.model.Cliente;
 import br.com.spring.delivery.model.TipoDePagamento;
 
-public class PessoaDto {
+public class ClienteDto {
 
 	private Long id;
 	private String nome;
@@ -17,16 +17,16 @@ public class PessoaDto {
 	@Enumerated(EnumType.STRING)
 	private TipoDePagamento tipoDePagamento;
 
-	public PessoaDto() {
+	public ClienteDto() {
 	}
 
-	public PessoaDto(Pessoa pessoa) {
-		this.id = pessoa.getId();
-		this.nome = pessoa.getNome();
-		this.telefone = pessoa.getTelefone();
-		this.endereco = pessoa.getEndereco();
-		this.email = pessoa.getEmail();
-		this.tipoDePagamento = pessoa.getTipoDePagamento();
+	public ClienteDto(Cliente cliente) {
+		this.id = cliente.getId();
+		this.nome = cliente.getNome();
+		this.telefone = cliente.getTelefone();
+		this.endereco = cliente.getEndereco();
+		this.email = cliente.getEmail();
+		this.tipoDePagamento = cliente.getTipoDePagamento();
 	}
 
 	public Long getId() {

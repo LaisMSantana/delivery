@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spring.delivery.model.Delivery;
 import br.com.spring.delivery.model.ItemDelivery;
-import br.com.spring.delivery.model.Pessoa;
+import br.com.spring.delivery.model.Cliente;
 import br.com.spring.delivery.model.dto.DeliveryDto;
 import br.com.spring.delivery.model.dto.ItemDeliveryDto;
 import br.com.spring.delivery.model.dto.converter.ItemDeliveryDtoConverter;
@@ -28,7 +28,7 @@ public class DeliveryService {
 	@Autowired
 	ItemDeliveryDtoConverter itemDeliveryDtoConverter;
 	@Autowired
-	PessoaService pessoaService;
+	ClienteService clienteService;
 	@Autowired
 	ProdutoService produtoService;
 
@@ -44,9 +44,9 @@ public class DeliveryService {
 		List<ItemDelivery> itens = new ArrayList<>();
 		cadastrarItens(deliveryDto, itens);
 
-		Optional<Pessoa> pessoa = pessoaService.pesquisarPorId(deliveryDto.getIdPessoa());
+		Optional<Cliente> cliente = clienteService.pesquisarPorId(deliveryDto.getIdCliente());
 
-		Delivery delivery = new Delivery(pessoa.get(), itens, pessoa.get().getTipoDePagamento());
+		Delivery delivery = new Delivery(cliente.get(), itens, cliente.get().getTipoDePagamento());
 		delivery.calcularValorTotal();
 
 		return deliveryRepository.save(delivery);

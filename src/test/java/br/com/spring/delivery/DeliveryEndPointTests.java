@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.spring.delivery.model.Delivery;
 import br.com.spring.delivery.model.Endereco;
 import br.com.spring.delivery.model.ItemDelivery;
-import br.com.spring.delivery.model.Pessoa;
+import br.com.spring.delivery.model.Cliente;
 import br.com.spring.delivery.model.Produto;
 import br.com.spring.delivery.model.TipoDePagamento;
 import br.com.spring.delivery.model.dto.DeliveryDto;
@@ -50,11 +50,11 @@ public class DeliveryEndPointTests {
 	@Autowired
 	DeliveryDtoConverter deliveryDtoConverter;
 
-	private Pessoa pessoa() {
+	private Cliente cliente() {
 		Endereco endereco = new Endereco(4L, "logradouro", "cidade", "estado", "88065422", "numero", "complemento");
-		Pessoa pessoa = new Pessoa(1L, "Nome", "62016610000", "+55 (48) 9 9940-7364", endereco,
+		Cliente cliente = new Cliente(1L, "Nome", "62016610000", "+55 (48) 9 9940-7364", endereco,
 				"teste@email.com", TipoDePagamento.DINHEIRO);
-		return pessoa;
+		return cliente;
 	}
 	private List<ItemDelivery> itens() {
 		Produto produto = new Produto(3L, "Nome", 2.55, "Descrição");
@@ -64,7 +64,7 @@ public class DeliveryEndPointTests {
 		
 	@Test
 	public void quandoListarTodos_retorna200() throws Exception {
-		Delivery delivery = new Delivery(this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
+		Delivery delivery = new Delivery(this.cliente(), this.itens(), this.cliente().getTipoDePagamento());
 
 		when(deliveryService.listarTodos()).thenReturn(java.util.List.of(delivery));
 
@@ -73,7 +73,7 @@ public class DeliveryEndPointTests {
 
 	@Test
 	public void quandoListarPorIdInexistente_retorna404() throws Exception {
-		Delivery delivery = new Delivery(this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
+		Delivery delivery = new Delivery(this.cliente(), this.itens(), this.cliente().getTipoDePagamento());
 
 		when(deliveryService.pesquisarPorId(1L)).thenReturn(java.util.Optional.of(delivery));
 
@@ -82,7 +82,7 @@ public class DeliveryEndPointTests {
 	
 	@Test
 	public void quandoListarPorId_retorna200() throws Exception {
-		Delivery delivery = new Delivery(this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
+		Delivery delivery = new Delivery(this.cliente(), this.itens(), this.cliente().getTipoDePagamento());
 
 		when(deliveryService.pesquisarPorId(1L)).thenReturn(java.util.Optional.of(delivery));
 

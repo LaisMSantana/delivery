@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
-public class Pessoa {
+public class Cliente {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,10 +50,10 @@ public class Pessoa {
 	@Enumerated(EnumType.STRING)
 	private TipoDePagamento tipoDePagamento;
 
-	public Pessoa() {
+	public Cliente() {
 	}
 
-	public Pessoa(Long id, @NotBlank(message = "O campo nome é obrigatório") String nome,
+	public Cliente(Long id, @NotBlank(message = "O campo nome é obrigatório") String nome,
 			@NotNull(message = "O campo CPF é obrigatório") @CPF(message = "CPF inválido") String cpf,
 			@Size(min = 10) String telefone, @NotNull(message = "O endereço é obrigatório") @Valid Endereco endereco,
 			@NotEmpty(message = "O email é obrigatório") String email,
@@ -68,7 +68,7 @@ public class Pessoa {
 		this.tipoDePagamento = tipoDePagamento;
 	}
 
-	public Pessoa(@NotBlank(message = "O campo nome é obrigatório") String nome,
+	public Cliente(@NotBlank(message = "O campo nome é obrigatório") String nome,
 			@NotNull(message = "O campo CPF é obrigatório") @CPF(message = "CPF inválido") String cpf,
 			@Size(min = 10) String telefone, @NotNull(message = "O endereço é obrigatório") @Valid Endereco endereco,
 			@NotEmpty(message = "O email é obrigatório") String email,

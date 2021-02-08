@@ -22,68 +22,68 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.spring.delivery.exception.CampoInvalidoException;
 import br.com.spring.delivery.exception.EstaSendoUtilizadoException;
-import br.com.spring.delivery.model.Pessoa;
+import br.com.spring.delivery.model.Cliente;
 import br.com.spring.delivery.model.dto.MensagemDto;
-import br.com.spring.delivery.model.dto.PessoaDto;
-import br.com.spring.delivery.model.dto.converter.PessoaDtoConverter;
+import br.com.spring.delivery.model.dto.ClienteDto;
+import br.com.spring.delivery.model.dto.converter.ClienteDtoConverter;
 import br.com.spring.delivery.respository.DeliveryRepository;
-import br.com.spring.delivery.service.PessoaService;
+import br.com.spring.delivery.service.ClienteService;
 
 @RestController
-@RequestMapping("/pessoas")
-public class PessoaController {
+@RequestMapping("/clientes")
+public class ClienteController {
 
 	@Autowired
-	PessoaService pessoaService;
+	ClienteService clienteService;
 	@Autowired
-	PessoaDtoConverter pessoaDtoConverter;
+	ClienteDtoConverter clienteDtoConverter;
 
 	@GetMapping
 	public ResponseEntity<List> lista(String nome) {
-		List<Pessoa> pessoas;
+		List<Cliente> clientes;
 		if (nome == null) {
-			pessoas = pessoaService.listarTodos();
+			clientes = clienteService.listarTodos();
 		} else {
-			pessoas = pessoaService.pesquisarPorNome(nome);
+			clientes = clienteService.pesquisarPorNome(nome);
 		}
-		return ResponseEntity.ok(PessoaDtoConverter.converterLista(pessoas));
+		return ResponseEntity.ok(ClienteDtoConverter.converterLista(clientes));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<PessoaDto> detalhar(@PathVariable Long id) {
-		Optional<Pessoa> pessoa = pessoaService.pesquisarPorId(id);
-		if (pessoa.isPresent()) {
-			return ResponseEntity.ok(new PessoaDto(pessoa.get()));
+	public ResponseEntity<ClienteDto> detalhar(@PathVariable Long id) {
+		Optional<Cliente> cliente = clienteService.pesquisarPorId(id);
+		if (cliente.isPresent()) {
+			return ResponseEntity.ok(new ClienteDto(cliente.get()));
 		}
 		return ResponseEntity.notFound().build();
 	}
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> cadastrar(@RequestBody @Valid Pessoa pessoa, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<?> cadastrar(@RequestBody @Valid Cliente cliente, UriComponentsBuilder uriBuilder) {
 		try {
-			pessoaService.verificarCampoJaCadastrados(pessoa);
-			pessoaService.salvar(pessoa);
+			clienteService.verificarCampoJaCadastrados(cliente);
+			clienteService.salvar(cliente);
 		} catch (final CampoInvalidoException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemDto(e.getMessage()));
 		}
 
-		URI uri = uriBuilder.path("/pessoas/{id}").buildAndExpand(pessoa.getId()).toUri();
-		return ResponseEntity.created(uri).body(new PessoaDto(pessoa));
+		URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();
+		return ResponseEntity.created(uri).body(new ClienteDto(cliente));
 	}
 
 	@PutMapping("/{id}")
 	@Transactional
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody @Valid PessoaDto pessoaDto) {
-		Optional<Pessoa> optional = pessoaService.pesquisarPorId(id);
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody @Valid ClienteDto clienteDto) {
+		Optional<Cliente> optional = clienteService.pesquisarPorId(id);
 		if (optional.isPresent()) {
 			try {
-				Pessoa pessoa = optional.get();
-				if (!pessoa.getEmail().equals(pessoaDto.getEmail())) {
-					pessoaService.verificarEmailJaCadastrado(pessoaDto);
+				Cliente cliente = optional.get();
+				if (!cliente.getEmail().equals(clienteDto.getEmail())) {
+					clienteService.verificarEmailJaCadastrado(clienteDto);
 				}
-				pessoaDtoConverter.converter(pessoaDto, pessoa);
-				return ResponseEntity.ok(new PessoaDto(pessoaService.salvar(pessoa)));
+				clienteDtoConverter.converter(clienteDto, cliente);
+				return ResponseEntity.ok(new ClienteDto(clienteService.salvar(cliente)));
 			} catch (final CampoInvalidoException e) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemDto(e.getMessage()));
 			}
@@ -94,10 +94,10 @@ public class PessoaController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		Optional<Pessoa> optionalPessoa = pessoaService.pesquisarPorId(id);
-		if (optionalPessoa.isPresent()) {
+		Optional<Cliente> optionalCliente = clienteService.pesquisarPorId(id);
+		if (optionalCliente.isPresent()) {
 			try {
-				pessoaService.deletar(id);
+				clienteService.deletar(id);
 				return ResponseEntity.ok().build();
 			} catch (EstaSendoUtilizadoException e) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemDto(e.getMessage()));

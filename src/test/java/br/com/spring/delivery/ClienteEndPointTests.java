@@ -22,21 +22,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.spring.delivery.model.Endereco;
-import br.com.spring.delivery.model.Pessoa;
+import br.com.spring.delivery.model.Cliente;
 import br.com.spring.delivery.model.TipoDePagamento;
-import br.com.spring.delivery.service.PessoaService;
+import br.com.spring.delivery.service.ClienteService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class PessoaEndPointTests {
+public class ClienteEndPointTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
 	@LocalServerPort
 	private int port;
 	@MockBean
-	PessoaService pessoaService;
+	ClienteService clienteService;
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -47,83 +47,83 @@ public class PessoaEndPointTests {
 
 	@Test
 	public void quandoListarTodos_retorna200() throws Exception {
-		Pessoa pessoa = new Pessoa(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
+		Cliente cliente = new Cliente(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
 				"teste@email.com", TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.listarTodos()).thenReturn(java.util.List.of(pessoa));
+		when(clienteService.listarTodos()).thenReturn(java.util.List.of(cliente));
 
-		mockMvc.perform(get("/pessoas")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/clientes")).andExpect(status().isOk()).andDo(print());
 	}
 
 	@Test
 	public void quandoListarPorNome_retorna200() throws Exception {
-		Pessoa pessoa = new Pessoa(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
+		Cliente cliente = new Cliente(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
 				"teste@email.com", TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.pesquisarPorNome("Nome")).thenReturn(java.util.List.of(pessoa));
+		when(clienteService.pesquisarPorNome("Nome")).thenReturn(java.util.List.of(cliente));
 
-		mockMvc.perform(get("/pessoas")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/clientes")).andExpect(status().isOk()).andDo(print());
 	}
 
 	@Test
 	public void quandoListarPorIdInexistente_retorna404() throws Exception {
-		Pessoa pessoa = new Pessoa(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
+		Cliente cliente = new Cliente(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
 				"teste@email.com", TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.pesquisarPorId(3L)).thenReturn(java.util.Optional.of(pessoa));
+		when(clienteService.pesquisarPorId(3L)).thenReturn(java.util.Optional.of(cliente));
 
-		mockMvc.perform(get("/pessoas/{id}", 6)).andExpect(status().isNotFound()).andDo(print());
+		mockMvc.perform(get("/clientes/{id}", 6)).andExpect(status().isNotFound()).andDo(print());
 	}
 
 	@Test
 	public void quandoListarPorId_retorna200() throws Exception {
-		Pessoa pessoa = new Pessoa(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
+		Cliente cliente = new Cliente(3L, "Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(),
 				"teste@email.com", TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.pesquisarPorId(3L)).thenReturn(java.util.Optional.of(pessoa));
+		when(clienteService.pesquisarPorId(3L)).thenReturn(java.util.Optional.of(cliente));
 
-		mockMvc.perform(get("/pessoas/{id}", 3)).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/clientes/{id}", 3)).andExpect(status().isOk()).andDo(print());
 	}
 
 	@Test
 	public void quandoSalvar_retorna200() throws Exception {
-		Pessoa pessoa = new Pessoa("Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(), "teste@email.com",
+		Cliente cliente = new Cliente("Nome", "62016610000", "+55 (48) 9 9940-7364", this.endereco(), "teste@email.com",
 				TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.salvar(pessoa)).thenReturn(pessoa);
+		when(clienteService.salvar(cliente)).thenReturn(cliente);
 
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(pessoa);
+		String jsonString = mapper.writeValueAsString(cliente);
 
-		mockMvc.perform(post("/pessoas").contentType(MediaType.APPLICATION_JSON).content(jsonString))
+		mockMvc.perform(post("/clientes").contentType(MediaType.APPLICATION_JSON).content(jsonString))
 				.andExpect(status().isCreated()).andDo(print());
 	}
 
 	@Test
 	public void quandoSalvarComNomeVazio_retorna400() throws Exception {
-		Pessoa pessoa = new Pessoa("", "12603107950", "+55 (48) 9 9940-7364", this.endereco(), "nome@email.com",
+		Cliente cliente = new Cliente("", "12603107950", "+55 (48) 9 9940-7364", this.endereco(), "nome@email.com",
 				TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.salvar(pessoa)).thenReturn(pessoa);
+		when(clienteService.salvar(cliente)).thenReturn(cliente);
 
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(pessoa);
+		String jsonString = mapper.writeValueAsString(cliente);
 
-		mockMvc.perform(post("/pessoas").contentType(MediaType.APPLICATION_JSON).content(jsonString))
+		mockMvc.perform(post("/clientes").contentType(MediaType.APPLICATION_JSON).content(jsonString))
 				.andExpect(status().isBadRequest()).andDo(print());
 	}
 
 	@Test
 	public void quandoSalvarComCpfInvalido_retorna400() throws Exception {
-		Pessoa pessoa = new Pessoa("Nome", "62016610099", "+55 (48) 9 9940-7364", this.endereco(), "nome@email.com",
+		Cliente cliente = new Cliente("Nome", "62016610099", "+55 (48) 9 9940-7364", this.endereco(), "nome@email.com",
 				TipoDePagamento.DINHEIRO);
 
-		when(pessoaService.salvar(pessoa)).thenReturn(pessoa);
+		when(clienteService.salvar(cliente)).thenReturn(cliente);
 
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(pessoa);
+		String jsonString = mapper.writeValueAsString(cliente);
 
-		mockMvc.perform(post("/pessoas").contentType(MediaType.APPLICATION_JSON).content(jsonString))
+		mockMvc.perform(post("/clientes").contentType(MediaType.APPLICATION_JSON).content(jsonString))
 				.andExpect(status().isBadRequest()).andDo(print());
 	}
 

@@ -16,7 +16,7 @@ public class DeliveryDto {
 	
 	private Long id;
 	@NotNull
-	private Long idPessoa;
+	private Long idCliente;
 	@NotNull
 	private List<ItemDeliveryDto> itemDeliveriesDto;
 	private double valorTotal;	
@@ -28,7 +28,7 @@ public class DeliveryDto {
 
 	public DeliveryDto(Delivery delivery) {
 		this.id = delivery.getId();
-		this.idPessoa = delivery.getPessoa().getId();
+		this.idCliente = delivery.getCliente().getId();
 		this.itemDeliveriesDto = new ArrayList<>();
 		this.itemDeliveriesDto
 				.addAll(delivery.getItemDeliveries().stream().map(ItemDeliveryDto::new).collect(Collectors.toList()));
@@ -36,9 +36,9 @@ public class DeliveryDto {
 		this.tipoDePagamento = delivery.getTipoDePagamento();
 	}
 	
-	public DeliveryDto(@NotNull Long idPessoa, @NotNull List<ItemDeliveryDto> itemDeliveriesDto) {
+	public DeliveryDto(@NotNull Long idCliente, @NotNull List<ItemDeliveryDto> itemDeliveriesDto) {
 		super();
-		this.idPessoa = idPessoa;
+		this.idCliente = idCliente;
 		this.itemDeliveriesDto = itemDeliveriesDto;
 	}
 
@@ -50,12 +50,12 @@ public class DeliveryDto {
 		this.id = id;
 	}
 
-	public Long getIdPessoa() {
-		return idPessoa;
+	public Long getIdCliente() {
+		return idCliente;
 	}
 
-	public void setIdPessoa(Long idPessoa) {
-		this.idPessoa = idPessoa;
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public List<ItemDeliveryDto> getItemDeliveriesDto() {

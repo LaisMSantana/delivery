@@ -8,8 +8,9 @@ import br.com.spring.delivery.model.Delivery;
 
 public interface DeliveryRepository  extends JpaRepository<Delivery, Long> {
 
-	List<Delivery> findByPessoaId(Long id);
-	
+
 	List<Delivery> findByItemDeliveriesProdutoId(Long id);
+
+	List<Delivery> findByClienteId(Long id);
 
 }

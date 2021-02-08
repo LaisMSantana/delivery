@@ -7,23 +7,21 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.spring.delivery.model.Delivery;
 import br.com.spring.delivery.model.Cliente;
-import br.com.spring.delivery.model.dto.DeliveryDto;
 import br.com.spring.delivery.model.dto.ClienteDto;
 
 @Component
-public class DeliveryDtoConverter {
+public class ClienteDtoConverter {
 	
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public static List<DeliveryDto> converterLista(List<Delivery> deliveries) {
-		return deliveries.stream().map(DeliveryDto::new).collect(Collectors.toList());
+	public static List<ClienteDto> converterLista(List<Cliente> clientes) {
+		return clientes.stream().map(ClienteDto::new).collect(Collectors.toList());
 	}
 	
-	public void converter(DeliveryDto deliveryDto, Delivery delivery) {
-		modelMapper.map(deliveryDto, delivery);
+	public void converter(ClienteDto clienteDto, Cliente cliente) {
+		modelMapper.map(clienteDto, cliente);
 	}
 
 }

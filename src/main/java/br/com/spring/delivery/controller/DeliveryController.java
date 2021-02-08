@@ -72,8 +72,8 @@ public class DeliveryController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		Optional<Delivery> optionalPessoa = deliveryService.pesquisarPorId(id);
-		if (optionalPessoa.isPresent()) {
+		Optional<Delivery> optionalCliente = deliveryService.pesquisarPorId(id);
+		if (optionalCliente.isPresent()) {
 			deliveryService.deletar(id);
 			return ResponseEntity.ok().build();
 		}
