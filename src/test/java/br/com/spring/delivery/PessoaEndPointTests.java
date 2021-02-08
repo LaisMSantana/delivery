@@ -62,7 +62,7 @@ public class PessoaEndPointTests {
 
 		when(pessoaService.pesquisarPorNome("Nome")).thenReturn(java.util.List.of(pessoa));
 
-		mockMvc.perform(get("/produtos")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/pessoas")).andExpect(status().isOk()).andDo(print());
 	}
 
 	@Test
@@ -127,18 +127,5 @@ public class PessoaEndPointTests {
 				.andExpect(status().isBadRequest()).andDo(print());
 	}
 
-//	@Test
-//	public void quandoSalvarComEmailJaExistente_retorna400() throws Exception {
-//		Pessoa pessoaComEmailJaExistente = new Pessoa("Nome2", "12603107950", "+55 (48) 9 9940-7364", this.endereco(),
-//				"lais3@email.com", TipoDePagamento.DINHEIRO);
-//
-//		when(pessoaService.salvar(pessoaComEmailJaExistente)).thenReturn(pessoaComEmailJaExistente);
-//
-//		ObjectMapper mapper = new ObjectMapper();
-//		String jsonStringComEmailJaExistente = mapper.writeValueAsString(pessoaComEmailJaExistente);
-//
-//		mockMvc.perform(post("/pessoas").contentType(MediaType.APPLICATION_JSON).content(jsonStringComEmailJaExistente))
-//				.andExpect(status().isBadRequest()).andDo(print());
-//	}
 
 }

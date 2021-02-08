@@ -62,7 +62,7 @@ public class DeliveryEndPointTests {
 		return java.util.List.of(item);
 	}
 		
-	//@Test
+	@Test
 	public void quandoListarTodos_retorna200() throws Exception {
 		Delivery delivery = new Delivery(this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
 
@@ -71,7 +71,7 @@ public class DeliveryEndPointTests {
 		mockMvc.perform(get("/delivery")).andExpect(status().isOk()).andDo(print());
 	}
 
-	//@Test
+	@Test
 	public void quandoListarPorIdInexistente_retorna404() throws Exception {
 		Delivery delivery = new Delivery(this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
 
@@ -80,7 +80,7 @@ public class DeliveryEndPointTests {
 		mockMvc.perform(get("/delivery/{id}", 6)).andExpect(status().isNotFound()).andDo(print());
 	}
 	
-	//@Test
+	@Test
 	public void quandoListarPorId_retorna200() throws Exception {
 		Delivery delivery = new Delivery(this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
 
@@ -89,20 +89,6 @@ public class DeliveryEndPointTests {
 		mockMvc.perform(get("/delivery/{id}", 1)).andExpect(status().isOk()).andDo(print());
 	}
 	
-    @Test
-    public void quandoSalvar_retorna200 () throws Exception {
-    	Delivery delivery = new Delivery(1L,this.pessoa(), this.itens(), this.pessoa().getTipoDePagamento());
-    	DeliveryDto deliveryDto = new DeliveryDto(1L, java.util.List.of(new ItemDeliveryDto(1L, 5)));
-        when(deliveryService.cadastrar(deliveryDto)).thenReturn(delivery);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(deliveryDto);
-
-
-        mockMvc.perform(post("/delivery").contentType(MediaType.APPLICATION_JSON).content(jsonString))
-                .andExpect(status().isCreated())
-                .andDo(print());
-    }
 
 
 }
